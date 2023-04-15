@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 public class UserDaoService {
 
     private static List<User> users = new ArrayList<>();
-    private static int usersCount = '0';
+    private static int usersCount = 0;
 
     static{
         users.add(new User(++usersCount,"Adam", LocalDate.now().minusYears(30)));

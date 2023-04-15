@@ -2,8 +2,12 @@ package io.github.matheusgit11.restfulwebservices.Controller;
 
 import io.github.matheusgit11.restfulwebservices.Entity.User;
 import io.github.matheusgit11.restfulwebservices.Service.UserDaoService;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 import java.util.List;
 
 //server exception = 500
@@ -35,7 +39,12 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public void CreateUser(@RequestBody User user){
-        service.save(user);
+    public ResponseEntity<User> CreateUser(@RequestBody User user){
+        User savedUser= service.save(user);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest() //get the current url
+                .path("/{id}")
+                .buildAndExpand(savedUser.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 }
